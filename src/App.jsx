@@ -799,6 +799,27 @@ function FAQ() {
    CONTACT
    ═══════════════════════════════════════════════════════════════ */
 function Contact() {
+  const [form, setForm] = useState({ nombre: "", whatsapp: "", correo: "", presupuesto: "", mensaje: "" });
+  const [status, setStatus] = useState("idle"); // idle | loading | success | error
+
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("loading");
+    try {
+      const res = await fetch("https://n8n-n8n.f8ihph.easypanel.host/webhook-test/notstudioleads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, fecha: new Date().toISOString() }),
+      });
+      if (!res.ok) throw new Error("Error");
+      setStatus("success");
+    } catch {
+      setStatus("error");
+    }
+  };
+
   return (
     <section className="contact-section">
       <div className="contact-inner container">
@@ -815,24 +836,124 @@ function Contact() {
             <span style={{ color: WHITE }}>EMPEZAR?</span>
           </h2>
           <p className="contact-subtitle">
-            Escríbeme y en menos de 24 horas tienes respuesta. Sin compromiso, sin vueltas.
+            Completa el formulario y en menos de 24 horas tienes respuesta. Sin compromiso, sin vueltas.
           </p>
-          <motion.a
-            href={WA}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-wa-large"
-            whileHover={{ scale: 1.03, y: -2 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <WhatsAppIcon size={24} />
-            Escríbeme por WhatsApp
-          </motion.a>
-          <div className="contact-social">
-            <a href="https://instagram.com/notmatyx" target="_blank" rel="noopener noreferrer">@notmatyx en Instagram</a>
-            <span className="contact-divider">|</span>
-            <a href="https://tiktok.com/@notmatyx" target="_blank" rel="noopener noreferrer">@notmatyx en TikTok</a>
-          </div>
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-60px" }}
+          variants={fadeUp}
+        >
+          {status === "success" ? (
+            <div className="contact-success">
+              <span style={{ fontSize: "2.5rem", display: "block", marginBottom: 16 }}>{"\u2705"}</span>
+              <h3 className="contact-success-title">{"\u00A1"}Mensaje enviado!</h3>
+              <p className="contact-success-text">Te respondo en menos de 24 horas.</p>
+            </div>
+          ) : (
+            <form className="contact-form" onSubmit={handleSubmit}>
+              <div className="contact-form-row">
+                <div className="contact-field">
+                  <label className="contact-label">Nombre completo</label>
+                  <input
+                    type="text"
+                    name="nombre"
+                    required
+                    placeholder="Tu nombre"
+                    value={form.nombre}
+                    onChange={handleChange}
+                    className="contact-input"
+                  />
+                </div>
+                <div className="contact-field">
+                  <label className="contact-label">WhatsApp</label>
+                  <input
+                    type="tel"
+                    name="whatsapp"
+                    required
+                    placeholder="+56 9 1234 5678"
+                    value={form.whatsapp}
+                    onChange={handleChange}
+                    className="contact-input"
+                  />
+                </div>
+              </div>
+              <div className="contact-form-row">
+                <div className="contact-field">
+                  <label className="contact-label">Correo electrónico</label>
+                  <input
+                    type="email"
+                    name="correo"
+                    required
+                    placeholder="tu@correo.com"
+                    value={form.correo}
+                    onChange={handleChange}
+                    className="contact-input"
+                  />
+                </div>
+                <div className="contact-field">
+                  <label className="contact-label">Rango de presupuesto</label>
+                  <select
+                    name="presupuesto"
+                    required
+                    value={form.presupuesto}
+                    onChange={handleChange}
+                    className={`contact-input contact-select ${!form.presupuesto ? "contact-select-placeholder" : ""}`}
+                  >
+                    <option value="" disabled>Selecciona un rango</option>
+                    <option value="Menos de $150.000">Menos de $150.000</option>
+                    <option value="$150.000 - $350.000">$150.000 - $350.000</option>
+                    <option value="$350.000 - $700.000">$350.000 - $700.000</option>
+                    <option value="Más de $700.000">Más de $700.000</option>
+                    <option value="No tengo claro">No tengo claro</option>
+                  </select>
+                </div>
+              </div>
+              <div className="contact-field">
+                <label className="contact-label">{"\u00BF"}Qué necesitas?</label>
+                <textarea
+                  name="mensaje"
+                  required
+                  rows={4}
+                  placeholder="Cuéntame brevemente tu proyecto..."
+                  value={form.mensaje}
+                  onChange={handleChange}
+                  className="contact-input contact-textarea"
+                />
+              </div>
+              {status === "error" && (
+                <p className="contact-error">Hubo un problema al enviar. Intenta de nuevo o escríbeme directo por WhatsApp.</p>
+              )}
+              <motion.button
+                type="submit"
+                className="contact-submit"
+                disabled={status === "loading"}
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                {status === "loading" ? (
+                  <span className="contact-spinner" />
+                ) : (
+                  "Enviar consulta"
+                )}
+              </motion.button>
+            </form>
+          )}
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-40px" }}
+          variants={fadeIn}
+          className="contact-social"
+          style={{ marginTop: 40 }}
+        >
+          <a href="https://instagram.com/notmatyx" target="_blank" rel="noopener noreferrer">@notmatyx en Instagram</a>
+          <span className="contact-divider">|</span>
+          <a href="https://tiktok.com/@notmatyx" target="_blank" rel="noopener noreferrer">@notmatyx en TikTok</a>
         </motion.div>
       </div>
     </section>
@@ -1866,24 +1987,132 @@ a { color: inherit; }
   max-width: 480px;
   margin: 0 auto 40px;
 }
-.btn-wa-large {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  background: ${WHITE};
-  color: ${CHERRY};
-  padding: 20px 48px;
-  border-radius: 100px;
-  text-decoration: none;
-  font-family: 'Sora', sans-serif;
-  font-size: 1.15rem;
-  font-weight: 700;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-  transition: all 0.3s;
-  margin-bottom: 32px;
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
-.btn-wa-large:hover {
+.contact-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.contact-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+.contact-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 0.02em;
+}
+.contact-input {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  color: ${DARK};
+  background: rgba(255,255,255,0.92);
+  border: 1.5px solid rgba(255,255,255,0.3);
+  border-radius: 14px;
+  padding: 14px 18px;
+  outline: none;
+  transition: all 0.3s;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.contact-input:focus {
+  background: ${WHITE};
+  border-color: ${WHITE};
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.2);
+}
+.contact-input::placeholder {
+  color: ${GRAY[400]};
+}
+.contact-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23555' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+  cursor: pointer;
+}
+.contact-select-placeholder {
+  color: ${GRAY[400]};
+}
+.contact-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+.contact-submit {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: ${CHERRY};
+  background: ${WHITE};
+  border: none;
+  border-radius: 100px;
+  padding: 18px 48px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  align-self: center;
+  min-width: 220px;
+}
+.contact-submit:hover {
   box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+}
+.contact-submit:disabled {
+  opacity: 0.85;
+  cursor: wait;
+}
+.contact-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid rgba(196,30,58,0.2);
+  border-top-color: ${CHERRY};
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+.contact-success {
+  max-width: 480px;
+  margin: 0 auto;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 24px;
+  padding: 48px 40px;
+  text-align: center;
+}
+.contact-success-title {
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: ${WHITE};
+  margin-bottom: 8px;
+}
+.contact-success-text {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.7);
+}
+.contact-error {
+  font-size: 0.85rem;
+  color: rgba(255,255,200,0.9);
+  text-align: center;
+  background: rgba(0,0,0,0.15);
+  padding: 10px 16px;
+  border-radius: 10px;
 }
 .contact-social {
   display: flex;
@@ -1996,6 +2225,9 @@ a { color: inherit; }
   0% { transform: translateX(-50%); }
   100% { transform: translateX(0); }
 }
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
 
 /* ── Responsive ── */
 .hide-mobile { }
@@ -2087,9 +2319,8 @@ a { color: inherit; }
   .contact-title {
     font-size: 2.5rem;
   }
-  .btn-wa-large {
-    padding: 18px 32px;
-    font-size: 1rem;
+  .contact-form-row {
+    grid-template-columns: 1fr;
   }
 
   .footer-inner {
