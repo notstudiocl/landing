@@ -187,6 +187,109 @@ const scaleUp = {
 };
 
 /* ═══════════════════════════════════════════════════════════════
+   3D WIREFRAME GLOBE
+   ═══════════════════════════════════════════════════════════════ */
+function Globe({ size = 32 }) {
+  const canvasRef = useRef(null);
+  const animRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = size * dpr;
+    canvas.height = size * dpr;
+    ctx.scale(dpr, dpr);
+
+    let rotation = 0;
+    const R = size / 2 - 1.5;
+    const cx = size / 2;
+    const cy = size / 2;
+    const segments = 48;
+
+    function project(x, y, z) {
+      const cosR = Math.cos(rotation);
+      const sinR = Math.sin(rotation);
+      return {
+        x: cx + (x * cosR + z * sinR),
+        y: cy - y,
+        z: -x * sinR + z * cosR,
+      };
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, size, size);
+      ctx.strokeStyle = CHERRY;
+      ctx.lineWidth = 0.7;
+
+      // Longitude lines (meridians)
+      for (let i = 0; i < 8; i++) {
+        const theta = (i / 8) * Math.PI;
+        for (let j = 0; j < segments; j++) {
+          const phi1 = (j / segments) * Math.PI * 2;
+          const phi2 = ((j + 1) / segments) * Math.PI * 2;
+          const p1 = project(
+            R * Math.sin(phi1) * Math.cos(theta),
+            R * Math.cos(phi1),
+            R * Math.sin(phi1) * Math.sin(theta)
+          );
+          const p2 = project(
+            R * Math.sin(phi2) * Math.cos(theta),
+            R * Math.cos(phi2),
+            R * Math.sin(phi2) * Math.sin(theta)
+          );
+          ctx.globalAlpha = 0.08 + 0.55 * ((p1.z / R + 1) / 2);
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+        }
+      }
+
+      // Latitude lines (parallels)
+      for (let i = 1; i <= 5; i++) {
+        const phi = (i / 6) * Math.PI;
+        const r = R * Math.sin(phi);
+        const yPos = R * Math.cos(phi);
+        for (let j = 0; j < segments; j++) {
+          const t1 = (j / segments) * Math.PI * 2;
+          const t2 = ((j + 1) / segments) * Math.PI * 2;
+          const p1 = project(r * Math.cos(t1), yPos, r * Math.sin(t1));
+          const p2 = project(r * Math.cos(t2), yPos, r * Math.sin(t2));
+          ctx.globalAlpha = 0.08 + 0.55 * ((p1.z / R + 1) / 2);
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+        }
+      }
+
+      // Outer ring
+      ctx.globalAlpha = 0.3;
+      ctx.lineWidth = 0.9;
+      ctx.beginPath();
+      ctx.arc(cx, cy, R, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.globalAlpha = 1;
+      rotation += 0.006;
+      animRef.current = requestAnimationFrame(draw);
+    }
+
+    draw();
+    return () => cancelAnimationFrame(animRef.current);
+  }, [size]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{ width: size, height: size, flexShrink: 0 }}
+    />
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
    ICONS
    ═══════════════════════════════════════════════════════════════ */
 const WhatsAppIcon = ({ size = 24 }) => (
@@ -229,7 +332,7 @@ function Header() {
     >
       <div className="header-inner">
         <a href="#" className="logo">
-          <span className="logo-mark">N</span>
+          <Globe size={32} />
           <span className="logo-text">notstudio</span>
         </a>
 
