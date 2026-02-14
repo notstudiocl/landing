@@ -333,7 +333,7 @@ function Header() {
       <div className="header-inner">
         <a href="#" className="logo">
           <Globe size={32} />
-          <span className="logo-text">notstudio</span>
+          <span className="logo-text">NotStudio</span>
         </a>
 
         <nav className="nav-desktop">
