@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Float, Environment } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Environment } from "@react-three/drei";
 import * as THREE from "three";
 
 /* ═══════════════════════════════════════════════════════════════
@@ -367,8 +367,8 @@ function FloatingShape({ position, scale, color, speed, type, mouseRef }) {
     const floatY = Math.sin(t * speed * 0.5) * 0.35;
     const floatZ = Math.sin(t * speed * 0.4) * 0.15;
 
-    meshRef.current.position.x = position[0] + floatX + smoothMouse.current.x * 0.6;
-    meshRef.current.position.y = position[1] + floatY + smoothMouse.current.y * 0.4;
+    meshRef.current.position.x = position[0] + floatX + smoothMouse.current.x * 0.8;
+    meshRef.current.position.y = position[1] + floatY + smoothMouse.current.y * 0.5;
     meshRef.current.position.z = position[2] + floatZ;
 
     meshRef.current.rotation.x += 0.003 * speed;
@@ -587,6 +587,16 @@ function Hero() {
     };
   }, []);
 
+  useEffect(() => {
+    if (isMobile) return;
+    const onMove = (e) => {
+      mouseRef.current.x = (e.clientX / window.innerWidth - 0.5) * 2;
+      mouseRef.current.y = -(e.clientY / window.innerHeight - 0.5) * 2;
+    };
+    window.addEventListener("mousemove", onMove);
+    return () => window.removeEventListener("mousemove", onMove);
+  }, [isMobile]);
+
   return (
     <section className="hero">
       <div
@@ -598,12 +608,6 @@ function Hero() {
             dpr={[1, isMobile ? 1.5 : 2]}
             gl={{ alpha: true, antialias: true }}
             camera={{ position: [0, 0, 6], fov: 45 }}
-            onPointerMove={(e) => {
-              if (isMobile) return;
-              mouseRef.current.x = (e.clientX / window.innerWidth - 0.5) * 2;
-              mouseRef.current.y = -(e.clientY / window.innerHeight - 0.5) * 2;
-            }}
-            style={{ pointerEvents: "auto" }}
           >
             <HeroScene isMobile={isMobile} mouseRef={mouseRef} />
           </Canvas>
