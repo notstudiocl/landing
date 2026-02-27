@@ -1,5 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Float, Environment } from "@react-three/drei";
+import * as THREE from "three";
 
 /* ═══════════════════════════════════════════════════════════════
    CONSTANTS
@@ -136,14 +139,14 @@ const TIMELINE = [
 const PRICING = [
   {
     name: "Landing Page",
-    price: "Desde $150.000",
+    price: "Desde $250.000",
     desc: "Presencia digital profesional que convierte.",
     features: ["Diseño personalizado", "Responsive mobile-first", "Optimización SEO", "Formulario de contacto", "Hosting primer año", "Entrega en 5-7 días"],
     popular: false,
   },
   {
     name: "E-Commerce",
-    price: "Desde $350.000",
+    price: "Desde $400.000",
     desc: "Tu tienda online lista para vender.",
     features: ["Todo lo de Landing Page", "Catálogo de productos", "Pasarela de pagos", "Gestión de inventario", "Panel de administración", "Soporte 30 días"],
     popular: true,
@@ -290,6 +293,138 @@ function Globe({ size = 32 }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   3D HERO COMPONENTS
+   ═══════════════════════════════════════════════════════════════ */
+function FloatingShape({ position, scale, color, speed, type, mouseRef }) {
+  const meshRef = useRef();
+  const geometry = useMemo(() => {
+    switch (type) {
+      case "sphere":
+        return new THREE.SphereGeometry(1, 32, 32);
+      case "torus":
+        return new THREE.TorusGeometry(1, 0.4, 16, 32);
+      case "icosahedron":
+        return new THREE.IcosahedronGeometry(1, 0);
+      default:
+        return new THREE.SphereGeometry(1, 32, 32);
+    }
+  }, [type]);
+
+  useFrame((state) => {
+    if (!meshRef.current) return;
+    const t = state.clock.elapsedTime;
+    meshRef.current.position.y = position[1] + Math.sin(t * speed * 0.5) * 0.3;
+    meshRef.current.position.x = position[0] + Math.cos(t * speed * 0.3) * 0.15;
+    meshRef.current.position.z = position[2] + Math.sin(t * speed * 0.4) * 0.1;
+    meshRef.current.rotation.x += 0.003 * speed;
+    meshRef.current.rotation.y += 0.004 * speed;
+
+    if (mouseRef.current) {
+      meshRef.current.position.x += mouseRef.current.x * 0.15;
+      meshRef.current.position.y += mouseRef.current.y * 0.1;
+    }
+  });
+
+  return (
+    <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.5}>
+      <mesh ref={meshRef} position={position} scale={scale} geometry={geometry}>
+        <meshPhysicalMaterial
+          color={color}
+          transmission={0.6}
+          thickness={0.5}
+          roughness={0.1}
+          metalness={0.1}
+          ior={1.5}
+          transparent
+          opacity={0.7}
+          envMapIntensity={1}
+        />
+      </mesh>
+    </Float>
+  );
+}
+
+function FloatingParticles({ count = 50 }) {
+  const pointsRef = useRef();
+  const positions = useMemo(() => {
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      pos[i * 3] = (Math.random() - 0.5) * 12;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 12;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 8;
+    }
+    return pos;
+  }, [count]);
+
+  useFrame(() => {
+    if (pointsRef.current) {
+      pointsRef.current.rotation.y += 0.0005;
+      pointsRef.current.rotation.x += 0.0002;
+    }
+  });
+
+  return (
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={count}
+          array={positions}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial
+        color="#C41E3A"
+        size={0.04}
+        transparent
+        opacity={0.6}
+        sizeAttenuation
+      />
+    </points>
+  );
+}
+
+function HeroScene({ isMobile }) {
+  const mouseRef = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    if (isMobile) return;
+    const onMove = (e) => {
+      mouseRef.current.x = (e.clientX / window.innerWidth - 0.5) * 2;
+      mouseRef.current.y = -(e.clientY / window.innerHeight - 0.5) * 2;
+    };
+    window.addEventListener("mousemove", onMove);
+    return () => window.removeEventListener("mousemove", onMove);
+  }, [isMobile]);
+
+  const shapes = useMemo(() => {
+    const all = [
+      { position: [-3, 1.5, -1], scale: 0.6, color: "#C41E3A", speed: 0.8, type: "sphere" },
+      { position: [3.5, -1, -2], scale: 0.5, color: "#FFB3C1", speed: 1.0, type: "torus" },
+      { position: [-2, -1.5, 0], scale: 0.45, color: "#FFFFFF", speed: 0.6, type: "icosahedron" },
+      { position: [2, 2, -1.5], scale: 0.35, color: "#C41E3A", speed: 1.2, type: "sphere" },
+      { position: [-4, 0, -2], scale: 0.4, color: "#FFB3C1", speed: 0.7, type: "torus" },
+      { position: [4, 0.5, -1], scale: 0.55, color: "#FFFFFF", speed: 0.9, type: "icosahedron" },
+      { position: [0, -2.5, -1], scale: 0.3, color: "#C41E3A", speed: 1.1, type: "sphere" },
+    ];
+    return isMobile ? all.slice(0, 4) : all;
+  }, [isMobile]);
+
+  return (
+    <>
+      <ambientLight intensity={0.5} />
+      <directionalLight position={[5, 5, 5]} intensity={0.8} color="#FFFFFF" />
+      <directionalLight position={[-3, 3, 2]} intensity={0.4} color="#FFB3C1" />
+      <Environment preset="city" />
+      {shapes.map((s, i) => (
+        <FloatingShape key={i} {...s} mouseRef={mouseRef} />
+      ))}
+      <FloatingParticles count={isMobile ? 25 : 50} />
+    </>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
    ICONS
    ═══════════════════════════════════════════════════════════════ */
 const WhatsAppIcon = ({ size = 24 }) => (
@@ -380,21 +515,64 @@ function Header() {
    ═══════════════════════════════════════════════════════════════ */
 function Hero() {
   const [wordIdx, setWordIdx] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
   const words = ["Sistemas", "E-commerce", "Automatizaciones", "Apps Web"];
+  const rafRef = useRef(null);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     const i = setInterval(() => setWordIdx((c) => (c + 1) % words.length), 2500);
     return () => clearInterval(i);
   }, []);
 
+  useEffect(() => {
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        rafRef.current = requestAnimationFrame(() => {
+          setScrollY(window.scrollY);
+          ticking = false;
+        });
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
   return (
     <section className="hero">
-      {/* Decorative elements */}
-      <div className="hero-blob hero-blob-1" />
-      <div className="hero-blob hero-blob-2" />
-      <div className="hero-dots" />
+      <div
+        className="hero-canvas-wrap"
+        style={{ transform: `translateY(${scrollY * 0.15}px)` }}
+      >
+        <Suspense fallback={<div className="hero-canvas-fallback" />}>
+          <Canvas
+            dpr={[1, isMobile ? 1.5 : 2]}
+            gl={{ alpha: true, antialias: true }}
+            camera={{ position: [0, 0, 6], fov: 45 }}
+          >
+            <HeroScene isMobile={isMobile} />
+          </Canvas>
+        </Suspense>
+      </div>
 
-      <div className="container hero-content">
+      <div className="hero-overlay" />
+
+      <div
+        className="container hero-content"
+        style={{ transform: `translateY(${-scrollY * 0.3}px)` }}
+      >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -1223,36 +1401,32 @@ a { color: inherit; }
   background: ${WHITE};
   padding: 140px 24px 80px;
 }
-.hero-blob {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-}
-.hero-blob-1 {
-  width: 700px;
-  height: 700px;
-  top: -250px;
-  right: -200px;
-  background: radial-gradient(circle, rgba(196,30,58,0.08) 0%, transparent 70%);
-}
-.hero-blob-2 {
-  width: 500px;
-  height: 500px;
-  bottom: -150px;
-  left: -150px;
-  background: radial-gradient(circle, rgba(196,30,58,0.05) 0%, transparent 70%);
-}
-.hero-dots {
+.hero-canvas-wrap {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(0,0,0,0.04) 1px, transparent 1px);
-  background-size: 32px 32px;
+  z-index: 0;
+  will-change: transform;
+}
+.hero-canvas-fallback {
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(196,30,58,0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgba(255,179,193,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(196,30,58,0.04) 0%, transparent 70%);
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.3) 100%);
   pointer-events: none;
 }
 .hero-content {
   text-align: center;
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  will-change: transform;
 }
 .hero-badge {
   display: inline-flex;
@@ -2257,8 +2431,11 @@ a { color: inherit; }
 
   .hide-mobile { display: none; }
 
-  .hero { padding: 120px 24px 60px; min-height: auto; }
+  .hero { padding: 120px 24px 60px; min-height: 100svh; }
   .hero-title { margin-bottom: 20px; }
+  .hero-overlay {
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0.55) 100%);
+  }
   .hero-stats { gap: 24px; padding: 24px 20px; }
   .hero-stat-num { font-size: 1.5rem; }
 
