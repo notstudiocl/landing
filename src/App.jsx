@@ -58,7 +58,8 @@ const SERVICES = [
     emoji: "\u{1F310}",
     title: "Desarrollo Web",
     desc: "Sitios rápidos, modernos y que convierten. WordPress, React o lo que tu proyecto necesite. Responsive, optimizado y listo para crecer.",
-    tags: ["WordPress", "React", "Landing Pages", "SEO"],
+    stack: ["WordPress", "React", "Next.js", "Tailwind CSS"],
+    result: "15+ sitios entregados",
     span: 2,
   },
   {
@@ -66,7 +67,8 @@ const SERVICES = [
     emoji: "\u{1F6D2}",
     title: "E-Commerce",
     desc: "Tiendas online completas. Pasarela de pagos, inventario, catálogo y panel de administración.",
-    tags: ["WooCommerce", "Pasarelas", "Inventario"],
+    stack: ["WooCommerce", "Transbank", "Shopify", "MercadoPago"],
+    result: "10+ tiendas activas",
     span: 1,
   },
   {
@@ -74,7 +76,8 @@ const SERVICES = [
     emoji: "\u26A1",
     title: "Automatizaciones",
     desc: "Elimina el trabajo manual. Workflows que conectan tus herramientas y ahorran horas cada semana.",
-    tags: ["n8n", "APIs", "Workflows", "CRM"],
+    stack: ["n8n", "Zapier", "APIs REST", "Webhooks"],
+    result: "500+ horas ahorradas",
     span: 1,
   },
   {
@@ -82,7 +85,17 @@ const SERVICES = [
     emoji: "\u{1F4CA}",
     title: "Apps Web",
     desc: "Dashboards, sistemas de gestión y soluciones a medida. Todo en la nube, accesible desde cualquier dispositivo.",
-    tags: ["Dashboards", "React", "Node.js", "Bases de Datos"],
+    stack: ["React", "Node.js", "PostgreSQL", "Firebase"],
+    result: "8 sistemas en producción",
+    span: 1,
+  },
+  {
+    icon: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=600&q=80",
+    emoji: "\u{1F4E3}",
+    title: "Campañas de Marketing",
+    desc: "Estrategias de Meta Ads y Google Ads que generan resultados reales. Segmentación, creatividades y optimización continua. Diego lidera esta área.",
+    stack: ["Meta Ads", "Google Ads", "Analytics", "Looker Studio"],
+    result: "3x ROAS promedio",
     span: 2,
   },
 ];
@@ -91,30 +104,52 @@ const PROJECTS = [
   {
     title: "Virtual Keys",
     category: "E-Commerce",
-    desc: "Tienda de productos digitales con entrega automatizada y pasarela de pago integrada.",
+    desc: "Tienda de productos digitales con entrega automatizada al instante. Sistema de licencias, pasarela de pago integrada y panel de administración completo para gestionar stock y ventas.",
     img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80",
     color: CHERRY,
+    stack: ["WooCommerce", "WordPress", "PHP", "Transbank"],
+    results: "+200 ventas primer mes",
+    review: "#",
   },
   {
     title: "Sistema de Gestión",
     category: "Web App",
-    desc: "Dashboard administrativo con reportes en tiempo real y control de inventario completo.",
+    desc: "Dashboard administrativo con reportes en tiempo real, control de inventario, gestión de usuarios con roles y exportación de datos. Accesible desde cualquier dispositivo.",
     img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
     color: "#2563EB",
+    stack: ["React", "Node.js", "PostgreSQL", "Chart.js"],
+    results: "40h/mes automatizadas",
+    review: "#",
   },
   {
     title: "Automatización CRM",
     category: "Automatización",
-    desc: "Pipeline de leads automatizado con scoring, seguimiento y notificaciones en tiempo real.",
+    desc: "Pipeline de leads automatizado con scoring inteligente, seguimiento por etapas, notificaciones en tiempo real y sincronización con WhatsApp y email marketing.",
     img: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=800&q=80",
     color: "#7C3AED",
+    stack: ["n8n", "Google Sheets", "WhatsApp API", "Webhooks"],
+    results: "20h semanales ahorradas",
+    review: "#",
   },
   {
     title: "Web Corporativa",
     category: "Sitio Web",
-    desc: "Presencia digital profesional con formularios, blog y SEO optimizado para captar clientes.",
+    desc: "Presencia digital profesional con formularios de captación, blog integrado, SEO técnico optimizado y métricas de conversión. Diseño responsive pixel-perfect.",
     img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
     color: "#059669",
+    stack: ["WordPress", "Elementor", "SEO", "Analytics"],
+    results: "3x tráfico orgánico",
+    review: "#",
+  },
+  {
+    title: "Campaña E-Commerce",
+    category: "Campaña Marketing",
+    desc: "Estrategia completa de Meta Ads para tienda de ropa online. Segmentación de audiencias, creatividades A/B testing, retargeting dinámico y optimización de ROAS.",
+    img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+    color: "#EA580C",
+    stack: ["Meta Ads", "Pixel", "Google Analytics", "Looker Studio"],
+    results: "3.2x ROAS promedio",
+    review: "#",
   },
 ];
 
@@ -152,6 +187,13 @@ const PRICING = [
     popular: true,
   },
   {
+    name: "Campaña Marketing",
+    price: "Desde $200.000",
+    desc: "Meta Ads y Google Ads que generan ventas reales.",
+    features: ["Estrategia de campaña", "Segmentación de audiencias", "Creatividades optimizadas", "Pixel y tracking", "Reportes semanales", "Optimización continua"],
+    popular: false,
+  },
+  {
     name: "Sistema a Medida",
     price: "Conversemos",
     desc: "Soluciones que escalan con tu negocio.",
@@ -162,11 +204,11 @@ const PRICING = [
 
 const FAQS = [
   { q: "¿Cuánto demora un proyecto?", a: "Depende de la complejidad. Una landing page se entrega en 5-7 días. Un e-commerce en 2-3 semanas. Sistemas a medida los definimos juntos según el alcance." },
-  { q: "¿Qué tecnologías usas?", a: "WordPress, React, Node.js, n8n para automatizaciones, WooCommerce para e-commerce, y lo que el proyecto necesite. No me caso con una sola herramienta." },
-  { q: "¿Incluyes hosting y dominio?", a: "El hosting del primer año va incluido en todos los planes. El dominio lo puedo gestionar yo o si ya tienes uno, lo configuramos sin problema." },
-  { q: "¿Cómo es el proceso de trabajo?", a: "Hablamos por WhatsApp, definimos alcance, te paso una propuesta formal, pagas el 50% de anticipo, desarrollo, revisiones, entrega y pagas el resto. Simple y directo." },
-  { q: "¿Qué pasa si necesito cambios después?", a: "Incluyo un período de soporte post-entrega en todos los planes. Después de eso, ofrezco planes de mantenimiento o cambios puntuales con tarifas preferenciales." },
-  { q: "¿Trabajas con empresas grandes?", a: "Trabajo con emprendedores, pymes y startups principalmente. Si tu proyecto necesita un equipo más grande, te lo digo honestamente." },
+  { q: "¿Qué tecnologías usan?", a: "WordPress, React, Node.js, n8n para automatizaciones, WooCommerce para e-commerce, y lo que el proyecto necesite. No nos casamos con una sola herramienta." },
+  { q: "¿Incluyen hosting y dominio?", a: "El hosting del primer año va incluido en todos los planes. El dominio lo podemos gestionar nosotros o si ya tienes uno, lo configuramos sin problema." },
+  { q: "¿Cómo es el proceso de trabajo?", a: "Hablamos por WhatsApp, definimos alcance, te pasamos una propuesta formal, pagas el 50% de anticipo, desarrollo, revisiones, entrega y pagas el resto. Simple y directo." },
+  { q: "¿Qué pasa si necesito cambios después?", a: "Incluimos un período de soporte post-entrega en todos los planes. Después de eso, ofrecemos planes de mantenimiento o cambios puntuales con tarifas preferenciales." },
+  { q: "¿Trabajan con empresas grandes?", a: "Trabajamos con emprendedores, pymes y startups principalmente. Si tu proyecto necesita un equipo más grande, te lo decimos honestamente." },
 ];
 
 /* ═══════════════════════════════════════════════════════════════
@@ -297,6 +339,7 @@ function Globe({ size = 32 }) {
    ═══════════════════════════════════════════════════════════════ */
 function FloatingShape({ position, scale, color, speed, type, mouseRef }) {
   const meshRef = useRef();
+  const smoothMouse = useRef({ x: 0, y: 0 });
   const geometry = useMemo(() => {
     switch (type) {
       case "sphere":
@@ -310,37 +353,42 @@ function FloatingShape({ position, scale, color, speed, type, mouseRef }) {
     }
   }, [type]);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     if (!meshRef.current) return;
     const t = state.clock.elapsedTime;
-    meshRef.current.position.y = position[1] + Math.sin(t * speed * 0.5) * 0.3;
-    meshRef.current.position.x = position[0] + Math.cos(t * speed * 0.3) * 0.15;
-    meshRef.current.position.z = position[2] + Math.sin(t * speed * 0.4) * 0.1;
-    meshRef.current.rotation.x += 0.003 * speed;
-    meshRef.current.rotation.y += 0.004 * speed;
+    const lerpFactor = 1 - Math.pow(0.05, delta);
 
     if (mouseRef.current) {
-      meshRef.current.position.x += mouseRef.current.x * 0.15;
-      meshRef.current.position.y += mouseRef.current.y * 0.1;
+      smoothMouse.current.x += (mouseRef.current.x - smoothMouse.current.x) * lerpFactor;
+      smoothMouse.current.y += (mouseRef.current.y - smoothMouse.current.y) * lerpFactor;
     }
+
+    const floatX = Math.cos(t * speed * 0.3) * 0.2;
+    const floatY = Math.sin(t * speed * 0.5) * 0.35;
+    const floatZ = Math.sin(t * speed * 0.4) * 0.15;
+
+    meshRef.current.position.x = position[0] + floatX + smoothMouse.current.x * 0.6;
+    meshRef.current.position.y = position[1] + floatY + smoothMouse.current.y * 0.4;
+    meshRef.current.position.z = position[2] + floatZ;
+
+    meshRef.current.rotation.x += 0.003 * speed;
+    meshRef.current.rotation.y += 0.004 * speed;
   });
 
   return (
-    <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.5}>
-      <mesh ref={meshRef} position={position} scale={scale} geometry={geometry}>
-        <meshPhysicalMaterial
-          color={color}
-          transmission={0.6}
-          thickness={0.5}
-          roughness={0.1}
-          metalness={0.1}
-          ior={1.5}
-          transparent
-          opacity={0.7}
-          envMapIntensity={1}
-        />
-      </mesh>
-    </Float>
+    <mesh ref={meshRef} position={position} scale={scale} geometry={geometry}>
+      <meshPhysicalMaterial
+        color={color}
+        transmission={0.6}
+        thickness={0.5}
+        roughness={0.1}
+        metalness={0.1}
+        ior={1.5}
+        transparent
+        opacity={0.7}
+        envMapIntensity={1}
+      />
+    </mesh>
   );
 }
 
@@ -384,19 +432,7 @@ function FloatingParticles({ count = 50 }) {
   );
 }
 
-function HeroScene({ isMobile }) {
-  const mouseRef = useRef({ x: 0, y: 0 });
-
-  useEffect(() => {
-    if (isMobile) return;
-    const onMove = (e) => {
-      mouseRef.current.x = (e.clientX / window.innerWidth - 0.5) * 2;
-      mouseRef.current.y = -(e.clientY / window.innerHeight - 0.5) * 2;
-    };
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
-  }, [isMobile]);
-
+function HeroScene({ isMobile, mouseRef }) {
   const shapes = useMemo(() => {
     const all = [
       { position: [-3, 1.5, -1], scale: 0.6, color: "#C41E3A", speed: 0.8, type: "sphere" },
@@ -519,6 +555,7 @@ function Hero() {
   const [scrollY, setScrollY] = useState(0);
   const words = ["Sistemas", "E-commerce", "Automatizaciones", "Apps Web"];
   const rafRef = useRef(null);
+  const mouseRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 768);
@@ -561,8 +598,14 @@ function Hero() {
             dpr={[1, isMobile ? 1.5 : 2]}
             gl={{ alpha: true, antialias: true }}
             camera={{ position: [0, 0, 6], fov: 45 }}
+            onPointerMove={(e) => {
+              if (isMobile) return;
+              mouseRef.current.x = (e.clientX / window.innerWidth - 0.5) * 2;
+              mouseRef.current.y = -(e.clientY / window.innerHeight - 0.5) * 2;
+            }}
+            style={{ pointerEvents: "auto" }}
           >
-            <HeroScene isMobile={isMobile} />
+            <HeroScene isMobile={isMobile} mouseRef={mouseRef} />
           </Canvas>
         </Suspense>
       </div>
@@ -698,9 +741,9 @@ function Services() {
       <div className="container">
         <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={fadeUp}>
           <span className="section-label">SERVICIOS</span>
-          <h2 className="section-title">LO QUE HAGO</h2>
+          <h2 className="section-title">LO QUE HACEMOS</h2>
           <p className="section-desc">
-            Sin tecnicismos. Sin vueltas. Te armo un sistema que funcione y que tu negocio necesita para crecer.
+            Sin tecnicismos. Sin vueltas. Te armamos un sistema que funcione y que tu negocio necesita para crecer.
           </p>
         </motion.div>
 
@@ -716,18 +759,22 @@ function Services() {
               key={i}
               variants={scaleUp}
               className={`bento-card bento-span-${s.span}`}
-              whileHover={{ y: -6, transition: { duration: 0.3 } }}
+              whileHover={{ y: -8, transition: { duration: 0.3 } }}
             >
               <div className="bento-img-wrap">
                 <img src={s.icon} alt={s.title} className="bento-img" loading="lazy" />
                 <div className="bento-img-overlay" />
               </div>
               <div className="bento-body">
-                <span className="bento-emoji">{s.emoji}</span>
+                <div className="bento-header">
+                  <span className="bento-emoji">{s.emoji}</span>
+                  {s.result && <span className="bento-result">{s.result}</span>}
+                </div>
                 <h3 className="bento-title">{s.title}</h3>
                 <p className="bento-desc">{s.desc}</p>
+                <div className="bento-stack-label">Stack tecnológico</div>
                 <div className="bento-tags">
-                  {s.tags.map((t, j) => (
+                  {s.stack.map((t, j) => (
                     <span key={j} className="bento-tag">{t}</span>
                   ))}
                 </div>
@@ -741,9 +788,36 @@ function Services() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   PROJECTS
+   PROJECTS (CAROUSEL)
    ═══════════════════════════════════════════════════════════════ */
 function Projects() {
+  const [current, setCurrent] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const trackRef = useRef(null);
+  const dragStart = useRef(0);
+  const dragOffset = useRef(0);
+
+  const goTo = (idx) => setCurrent(Math.max(0, Math.min(idx, PROJECTS.length - 1)));
+  const prev = () => goTo(current - 1);
+  const next = () => goTo(current + 1);
+
+  const handleDragStart = (e) => {
+    setDragging(true);
+    dragStart.current = e.type.includes("touch") ? e.touches[0].clientX : e.clientX;
+    dragOffset.current = 0;
+  };
+  const handleDragMove = (e) => {
+    if (!dragging) return;
+    const x = e.type.includes("touch") ? e.touches[0].clientX : e.clientX;
+    dragOffset.current = x - dragStart.current;
+  };
+  const handleDragEnd = () => {
+    if (!dragging) return;
+    setDragging(false);
+    if (dragOffset.current < -60) next();
+    else if (dragOffset.current > 60) prev();
+  };
+
   return (
     <section id="proyectos" className="section">
       <div className="container">
@@ -752,26 +826,73 @@ function Projects() {
           <h2 className="section-title">PROYECTOS REALES</h2>
           <p className="section-desc">Resultados concretos, no promesas. Cada proyecto entregado con obsesión por el detalle.</p>
         </motion.div>
+      </div>
 
-        <motion.div
-          className="projects-grid"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-60px" }}
-          variants={stagger}
+      <motion.div
+        className="carousel-wrap"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-60px" }}
+        variants={fadeUp}
+      >
+        <div
+          className="carousel-track"
+          ref={trackRef}
+          onMouseDown={handleDragStart}
+          onMouseMove={handleDragMove}
+          onMouseUp={handleDragEnd}
+          onMouseLeave={handleDragEnd}
+          onTouchStart={handleDragStart}
+          onTouchMove={handleDragMove}
+          onTouchEnd={handleDragEnd}
+          style={{
+            transform: `translateX(calc(-${current * 100}% - ${current * 24}px))`,
+            transition: dragging ? "none" : "transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)",
+          }}
         >
           {PROJECTS.map((p, i) => (
-            <motion.div key={i} variants={scaleUp} className="project-card">
-              <img src={p.img} alt={p.title} className="project-img" loading="lazy" />
-              <div className="project-overlay">
-                <span className="project-badge" style={{ background: p.color }}>{p.category}</span>
-                <h3 className="project-title">{p.title}</h3>
-                <p className="project-desc">{p.desc}</p>
+            <div key={i} className="carousel-slide">
+              <div className="carousel-card">
+                <div className="carousel-img-wrap">
+                  <img src={p.img} alt={p.title} className="carousel-img" loading="lazy" />
+                  <div className="carousel-img-gradient" />
+                  <span className="carousel-badge" style={{ background: p.color }}>{p.category}</span>
+                  {p.results && (
+                    <span className="carousel-result">{p.results}</span>
+                  )}
+                </div>
+                <div className="carousel-body">
+                  <h3 className="carousel-title">{p.title}</h3>
+                  <p className="carousel-desc">{p.desc}</p>
+                  <div className="carousel-stack">
+                    {p.stack.map((tech, j) => (
+                      <span key={j} className="carousel-tech">{tech}</span>
+                    ))}
+                  </div>
+                  <a href={p.review} className="carousel-review-btn">
+                    Ver testimonio del cliente
+                    <ArrowIcon />
+                  </a>
+                </div>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
-      </div>
+        </div>
+
+        <div className="carousel-nav">
+          <button className="carousel-arrow" onClick={prev} disabled={current === 0} aria-label="Anterior">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M15 10H5M5 10L10 5M5 10L10 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          </button>
+          <div className="carousel-dots">
+            {PROJECTS.map((_, i) => (
+              <button key={i} className={`carousel-dot ${i === current ? "carousel-dot-active" : ""}`} onClick={() => goTo(i)} aria-label={`Proyecto ${i + 1}`} />
+            ))}
+          </div>
+          <button className="carousel-arrow" onClick={next} disabled={current === PROJECTS.length - 1} aria-label="Siguiente">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 10H15M15 10L10 5M15 10L10 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          </button>
+        </div>
+      </motion.div>
     </section>
   );
 }
@@ -836,11 +957,10 @@ function Story() {
     <section id="historia" className="section">
       <div className="container">
         <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} variants={fadeUp}>
-          <span className="section-label">SOBRE MÍ</span>
-          <h2 className="section-title">MI HISTORIA</h2>
+          <span className="section-label">SOBRE NOSOTROS</span>
+          <h2 className="section-title">NUESTRA HISTORIA</h2>
           <p className="section-desc">
-            10 años haciendo lo que me gusta. Del cabro de 11 años que aprendió HTML
-            a los sistemas que mueven negocios hoy.
+            10 años de experiencia. Del primer HTML a los sistemas que mueven negocios hoy.
           </p>
         </motion.div>
 
@@ -1014,7 +1134,7 @@ function Contact() {
             <span style={{ color: WHITE }}>EMPEZAR?</span>
           </h2>
           <p className="contact-subtitle">
-            Completa el formulario y en menos de 24 horas tienes respuesta. Sin compromiso, sin vueltas.
+            Completa el formulario y en menos de 24 horas tienes respuesta de nuestro equipo. Sin compromiso, sin vueltas.
           </p>
         </motion.div>
 
@@ -1028,7 +1148,7 @@ function Contact() {
             <div className="contact-success">
               <span style={{ fontSize: "2.5rem", display: "block", marginBottom: 16 }}>{"\u2705"}</span>
               <h3 className="contact-success-title">{"\u00A1"}Mensaje enviado!</h3>
-              <p className="contact-success-text">Te respondo en menos de 24 horas.</p>
+              <p className="contact-success-text">Te respondemos en menos de 24 horas.</p>
             </div>
           ) : (
             <form className="contact-form" onSubmit={handleSubmit}>
@@ -1095,14 +1215,14 @@ function Contact() {
                   name="mensaje"
                   required
                   rows={4}
-                  placeholder="Cuéntame brevemente tu proyecto..."
+                  placeholder="Cuéntanos brevemente tu proyecto..."
                   value={form.mensaje}
                   onChange={handleChange}
                   className="contact-input contact-textarea"
                 />
               </div>
               {status === "error" && (
-                <p className="contact-error">Hubo un problema al enviar. Intenta de nuevo o escríbeme directo por WhatsApp.</p>
+                <p className="contact-error">Hubo un problema al enviar. Intenta de nuevo o escríbenos directo por WhatsApp.</p>
               )}
               <motion.button
                 type="submit"
@@ -1164,7 +1284,6 @@ function Footer() {
         </div>
       </div>
       <div className="footer-bottom container">
-        <p className="footer-sign-off">Nos vemos, chavales</p>
         <p className="footer-copy">&copy; {new Date().getFullYear()} notstudio. Todos los derechos reservados.</p>
       </div>
     </footer>
@@ -1645,8 +1764,8 @@ a { color: inherit; }
   z-index: 2;
 }
 .bento-card:hover {
-  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-  border-color: rgba(196,30,58,0.12);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.1), 0 0 0 1px rgba(196,30,58,0.1);
+  border-color: rgba(196,30,58,0.15);
 }
 .bento-card:hover::before {
   transform: scaleX(1);
@@ -1673,10 +1792,33 @@ a { color: inherit; }
 .bento-body {
   padding: 28px 32px 32px;
 }
+.bento-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
 .bento-emoji {
   font-size: 2rem;
   display: block;
-  margin-bottom: 16px;
+}
+.bento-result {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: ${CHERRY};
+  background: rgba(196,30,58,0.08);
+  padding: 6px 14px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+.bento-stack-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: ${GRAY[400]};
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 10px;
 }
 .bento-title {
   font-family: 'Sora', sans-serif;
@@ -1706,65 +1848,175 @@ a { color: inherit; }
   letter-spacing: 0.01em;
 }
 
-/* ── Projects ── */
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+/* ── Projects Carousel ── */
+.carousel-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  overflow: hidden;
 }
-.project-card {
-  position: relative;
+.carousel-track {
+  display: flex;
+  gap: 24px;
+  cursor: grab;
+  user-select: none;
+}
+.carousel-track:active { cursor: grabbing; }
+.carousel-slide {
+  min-width: 100%;
+  flex-shrink: 0;
+}
+.carousel-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: ${WHITE};
+  border: 1px solid rgba(0,0,0,0.06);
   border-radius: 24px;
   overflow: hidden;
-  aspect-ratio: 16/11;
-  cursor: pointer;
-  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 4px 32px rgba(0,0,0,0.06);
+  transition: box-shadow 0.4s;
 }
-.project-img {
+.carousel-card:hover {
+  box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+}
+.carousel-img-wrap {
+  position: relative;
+  min-height: 360px;
+  overflow: hidden;
+}
+.carousel-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.project-card:hover .project-img {
-  transform: scale(1.06);
+.carousel-card:hover .carousel-img {
+  transform: scale(1.04);
 }
-.project-overlay {
+.carousel-img-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 32px;
-  transition: background 0.4s;
+  background: linear-gradient(to right, transparent 60%, rgba(255,255,255,0.15) 100%);
 }
-.project-card:hover .project-overlay {
-  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.15) 100%);
-}
-.project-badge {
-  display: inline-block;
-  width: fit-content;
-  padding: 5px 14px;
+.carousel-badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 6px 16px;
   border-radius: 100px;
   font-size: 0.7rem;
   font-weight: 700;
   color: ${WHITE};
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  margin-bottom: 12px;
 }
-.project-title {
+.carousel-result {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  padding: 8px 18px;
+  border-radius: 12px;
   font-family: 'Sora', sans-serif;
-  font-size: 1.5rem;
+  font-size: 0.85rem;
   font-weight: 700;
   color: ${WHITE};
-  margin-bottom: 8px;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
-.project-desc {
+.carousel-body {
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.carousel-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: ${DARK};
+  margin-bottom: 12px;
+}
+.carousel-desc {
+  font-size: 0.95rem;
+  color: ${GRAY[500]};
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+.carousel-stack {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.carousel-tech {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: ${CHERRY};
+  background: rgba(196,30,58,0.06);
+  padding: 5px 14px;
+  border-radius: 100px;
+  letter-spacing: 0.01em;
+}
+.carousel-review-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: 0.9rem;
-  color: rgba(255,255,255,0.7);
-  line-height: 1.55;
+  font-weight: 600;
+  color: ${GRAY[700]};
+  text-decoration: none;
+  transition: color 0.25s;
+}
+.carousel-review-btn:hover {
+  color: ${CHERRY};
+}
+.carousel-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 32px;
+}
+.carousel-arrow {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid ${GRAY[200]};
+  background: ${WHITE};
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${GRAY[700]};
+  transition: all 0.3s;
+}
+.carousel-arrow:hover:not(:disabled) {
+  border-color: ${CHERRY};
+  color: ${CHERRY};
+  box-shadow: 0 4px 16px rgba(196,30,58,0.12);
+}
+.carousel-arrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.carousel-dots {
+  display: flex;
+  gap: 8px;
+}
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: ${GRAY[200]};
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 0;
+}
+.carousel-dot-active {
+  background: ${CHERRY};
+  transform: scale(1.3);
 }
 
 /* ── Testimonials ── */
@@ -1948,7 +2200,7 @@ a { color: inherit; }
 /* ── Pricing ── */
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   align-items: start;
 }
@@ -2369,13 +2621,6 @@ a { color: inherit; }
   flex-wrap: wrap;
   gap: 16px;
 }
-.footer-sign-off {
-  font-family: 'Sora', sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  color: rgba(255,255,255,0.5);
-  font-style: italic;
-}
 .footer-copy {
   font-size: 0.8rem;
   color: rgba(255,255,255,0.25);
@@ -2415,9 +2660,6 @@ a { color: inherit; }
   .pricing-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .pricing-grid > :last-child {
-    grid-column: span 2;
-  }
 }
 
 @media (max-width: 768px) {
@@ -2448,11 +2690,14 @@ a { color: inherit; }
   .bento-img-wrap { height: 140px; }
   .bento-body { padding: 24px; }
 
-  .projects-grid {
+  .carousel-card {
     grid-template-columns: 1fr;
   }
-  .project-card {
-    aspect-ratio: 16/12;
+  .carousel-img-wrap {
+    min-height: 220px;
+  }
+  .carousel-body {
+    padding: 28px 24px;
   }
 
   .testimonial-card { width: 320px; }
@@ -2484,9 +2729,6 @@ a { color: inherit; }
 
   .pricing-grid {
     grid-template-columns: 1fr;
-  }
-  .pricing-grid > :last-child {
-    grid-column: span 1;
   }
   .price-card-popular {
     transform: none;
